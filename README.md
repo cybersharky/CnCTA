@@ -14,5 +14,5 @@ $cncta->LastWorld();
 // start a game session
 $cncta->OpenSession();
 
-// replace 111 with a valid alliance id
+// replace 111 with a valid alliance id\n
 $result = $cncta->prepData('GetPublicAllianceInfo', array('id' => "111"));
