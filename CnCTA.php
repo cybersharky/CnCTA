@@ -50,10 +50,10 @@ class CnCTA {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
     }
-//
-//// login end
-//
-//
+
+// login end
+
+
     public function LastWorld() {
         $ch = curl_init();
         $urlL = 'https://www.tiberiumalliances.com/game/launch';
