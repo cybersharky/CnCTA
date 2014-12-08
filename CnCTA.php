@@ -21,8 +21,17 @@
  * */
 class CnCTA {
 
+    private static $instance;
     private $user;
     private $password;
+
+    public static function getInstance() {
+        if (!isset(self::$instance)) {
+            self::$instance = new CnCTA ();
+        }
+
+        return self::$instance;
+    }
 
     public function login($user, $password) {
         $this->user = $user;
@@ -51,9 +60,10 @@ class CnCTA {
         $result = curl_exec($ch);
     }
 
-// login end
-
-
+//
+//// login end
+//
+//
     public function LastWorld() {
         $ch = curl_init();
         $urlL = 'https://www.tiberiumalliances.com/game/launch';
@@ -67,7 +77,8 @@ class CnCTA {
         $result = curl_exec($ch);
         curl_close($ch);
         if (empty($result)) {
-            print('Curl result was empty');
+            print('LastWorld Curl result was empty');
+            exit();
         } elseif ($result === FALSE) {
             $errno = curl_errno($ch);
             $errormessage = curl_strerror($errno);
@@ -102,12 +113,22 @@ class CnCTA {
             'platformId' => 1
         );
         $url = $this->sessionserver . '/Presentation/Service.svc/ajaxEndpoint/';
-        $invalid = '00000000-0000-0000-0000-000000000000';
+        $invalid = "00000000-0000-0000-0000-000000000000";
         $result = $this->getData($url, 'OpenSession', $data);
-        $this->sessionkey = $result->i;
-        if ($this->sessionkey === $invalid) {
-            print 'invalid Session ID:' . $this->sessionkey;
+        //$this->sessionkey = $result->i;
+        $tries = 0;
+        $maxtries =2;
+        while (($result->i == $invalid) && ($tries < $maxtries)) {
+            sleep(2); //Lets not flood the server
+            $result = $this->getData($url, 'OpenSession', $data);
+            $this->sessionkey = $result->i;
+            $tries++;
+        }
+
+        if ($result->i === $invalid) {
+            print 'invalid Session ID:' . $result->i;
             exit();
+        
         } else {
 
             return $this->sessionkey = $result->i;
@@ -137,7 +158,8 @@ class CnCTA {
         curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie);
         $result = curl_exec($ch);
         if (empty($result)) {
-            print('Curl result was empty');
+            print('getData Curl result was empty');
+            exit();
         } elseif ($result === FALSE) {
             $errno = curl_errno($ch);
             $errormessage = curl_strerror($errno);
@@ -151,5 +173,7 @@ class CnCTA {
     }
 
 }
+
+
 
 // class end
