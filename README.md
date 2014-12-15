@@ -1,14 +1,14 @@
 CnCTA
-=====
+
 // Credit goes to https://github.com/ozon/cncta_php, for helping me understand what I needed to do
 
 Command and Conquer: Tiberium Alliances Curl PHP class
 
-$cncta = new CnCTA();
+$cncta = CnCTA::getInstance();
 
 // login into Game
 
-$cncta->login($user, $password);
+$cncta->login($user, $password); //your game username and password
 
 // Get a sessionId
 
