@@ -36,7 +36,7 @@ class CnCTA {
     public function login($user, $password) {
         $this->user = $user;
         $this->password = $password;
-        $this->cookie = 'C:/xampp/htdocs/cncadmin/' . md5($this->user) . '.txt';
+        $this->cookie = apache_getenv("TMP") . '\\' . md5($this->user) . '.txt'; //change to suitable location, tmp path assumes apache server
         $this->agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36';
         $_login_fields = array('spring-security-redirect' => '',
             'id' => '',
